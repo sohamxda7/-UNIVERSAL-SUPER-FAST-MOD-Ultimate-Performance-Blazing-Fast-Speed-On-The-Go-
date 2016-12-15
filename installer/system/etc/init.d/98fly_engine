@@ -1,0 +1,147 @@
+#!/system/bin/sh
+# ===========================================
+# ===========================================
+# ========== Fly_engine | Fly-On Mod™ =======
+# ========== By Slaid480@XDA 2013 ===========
+# ===========================================
+# ===========================================
+
+
+#============ Copyright (C) 2013 Salah Abouabdallah(Slaid480)===========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#=======================================================================#
+
+FLY=/data/Fly-On/06fly_engine.log
+
+busybox rm -f $FLY
+busybox touch $FLY
+
+echo "# Fly-On Mod™ LOGGING ENGINE" | tee -a $FLY
+echo "" | tee -a $FLY
+echo "$( date +"%m-%d-%Y %H:%M:%S" )  applying fly_engine tweaks..." | tee -a $FLY;
+
+
+# Tweaking processes at wake
+
+#    renice -1 `pidof com.android.phone`;   
+#    renice -1 `pidof com.android.mms`; # Text message app
+#    renice -1 `pidof com.swype.android.inputmethod`; # Keyboard
+#    renice -1 `pidof com.sec.android.app.controlpanel`; # Task manager
+#    renice -1 `pidof com.android.systemui`; # Status bar
+#    renice -1 `pidof com.android.settings`; # Settings menu
+#    renice -1 `pidof com.android.vending`; # Market app
+#    renice -1 `pidof com.sec.android.app.camera`; # Camera app
+#    renice -1 `pidof android.process.acore`;
+#    renice -1 `pidof kondemand/0`;
+#    renice -1 `pidof ksmartass_up/0`;
+
+
+
+# Network speed Tweaks
+
+echo "5" > /proc/sys/net/ipv4/tcp_keepalive_probes;
+echo "30" > /proc/sys/net/ipv4/tcp_keepalive_intvl;
+echo "30" > /proc/sys/net/ipv4/tcp_fin_timeout;
+echo "1" > /proc/sys/net/ipv4/tcp_moderate_rcvbuf;
+echo "1" > /proc/sys/net/ipv4/route/flush;
+echo "6144" > /proc/sys/net/ipv4/udp_rmem_min;
+echo "6144" > /proc/sys/net/ipv4/udp_wmem_min;
+echo "1" > /proc/sys/net/ipv4/tcp_rfc1337;
+echo "0" > /proc/sys/net/ipv4/ip_no_pmtu_disc;
+echo "0" > /proc/sys/net/ipv4/tcp_ecn;
+echo "6144 87380 2097152" > /proc/sys/net/ipv4/tcp_wmem;
+echo "6144 87380 2097152" > /proc/sys/net/ipv4/tcp_rmem;
+echo "1" > /proc/sys/net/ipv4/tcp_fack;
+echo "2" > /proc/sys/net/ipv4/tcp_synack_retries;
+echo "2" > /proc/sys/net/ipv4/tcp_syn_retries;
+echo "1" > /proc/sys/net/ipv4/tcp_no_metrics_save;
+echo "1800" > /proc/sys/net/ipv4/tcp_keepalive_time;
+echo "0" > /proc/sys/net/ipv4/ip_forward;
+echo "1" > /proc/sys/net/ipv4/tcp_sack;
+echo "1" > /proc/sys/net/ipv4/tcp_dsack;
+echo "1" > /proc/sys/net/ipv4/tcp_tw_recycle;
+echo "1" > /proc/sys/net/ipv4/tcp_window_scaling;
+echo "0" > /proc/sys/net/ipv4/conf/default/accept_source_route;
+echo "0" > /proc/sys/net/ipv4/conf/all/accept_source_route;
+echo "0" > /proc/sys/net/ipv4/conf/all/accept_redirects;
+echo "0" > /proc/sys/net/ipv4/conf/default/accept_redirects;
+echo "0" > /proc/sys/net/ipv4/conf/all/secure_redirects;
+echo "0" > /proc/sys/net/ipv4/conf/default/secure_redirects;
+echo "0" > /proc/sys/net/ipv4/ip_dynaddr;
+echo "0" > /proc/sys/net/ipv4/tcp_timestamps;
+echo "1" > /proc/sys/net/ipv4/tcp_tw_reuse;
+echo "1440000" > /proc/sys/net/ipv4/tcp_max_tw_buckets;
+echo "57344 57344 524288" > /proc/sys/net/ipv4/tcp_mem;
+echo "1440000" > /proc/sys/net/ipv4/tcp_max_tw_buckets;
+echo "2097152" > /proc/sys/net/core/rmem_max;
+echo "2097152" > /proc/sys/net/core/wmem_max;
+echo "262144" > /proc/sys/net/core/rmem_default;
+echo "262144" > /proc/sys/net/core/wmem_default;
+echo "20480" > /proc/sys/net/core/optmem_max;
+echo "2500" > /proc/sys/net/core/netdev_max_backlog;
+echo "50" > /proc/sys/net/unix/max_dgram_qlen;
+
+
+
+
+
+# Build.prop Tweaks
+
+#Graphics Tweaks and improvments
+setprop debug.performance.tuning 1;
+setprop video.accelerate.hw 1;
+#Battery Tweaks
+setprop wifi.supplicant_scan_interval 120;
+#kernel tweaks(Disable error checking)
+setprop ro.kernel.android.checkjni 0;
+
+
+
+
+# Disable Gentle Fair Sleepers(Would Improve smoothness)
+echo "NO_GENTLE_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features;
+echo "NO_NEW_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features;
+echo "NO_NORMALIZED_SLEEPER" > /sys/kernel/debug/sched_features;
+
+
+
+# VM Tweaks
+ #sysctl -w kernel.msgmni=1024;
+
+if [ "$mem" -lt 524288 ];then
+	sysctl -w vm.dirty_background_ratio=15;
+	sysctl -w vm.dirty_ratio=30;
+elif [ "$mem" -lt 1049776 ];then
+	sysctl -w vm.dirty_background_ratio=10;
+	sysctl -w vm.dirty_ratio=20;
+else 
+	sysctl -w vm.dirty_background_ratio=5;
+	sysctl -w vm.dirty_ratio=10;
+fi;
+
+
+
+# End of fly_engine script
+echo "fly_engine Tweaks applied successfully,Enjoy!!"
+
+
+
+echo "" | tee -a $FLY
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) fly_engine tweaks applied successfully!" | tee -a $FLY;
+
+
+
+
+
+

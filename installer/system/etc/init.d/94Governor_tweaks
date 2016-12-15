@@ -1,0 +1,271 @@
+#!/system/bin/sh
+# CPU governor tweaks for  For Fly-On Mod™ by Slaid480!
+
+#============ Copyright (C) 2013 Salah Abouabdallah(Slaid480)===========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#=======================================================================#
+
+FLY=/data/Fly-On/05Governor_tweaks.log
+
+busybox rm -f $FLY
+busybox touch $FLY
+
+echo "# Fly-On Mod™ LOGGING ENGINE" | tee -a $FLY
+echo "" | tee -a $FLY
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Tweaking CPU governor tweaks..." | tee -a $FLY;
+
+  # Ondemand
+
+  if [ -e /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold ]; then
+    echo "70" > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate;
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu1/cpufreq/ondemand/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu1/cpufreq/ondemand/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu1/cpufreq/ondemand/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu1/cpufreq/ondemand/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu1/cpufreq/ondemand/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu1/cpufreq/ondemand/sampling_rate;
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu2/cpufreq/ondemand/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu2/cpufreq/ondemand/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu2/cpufreq/ondemand/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu2/cpufreq/ondemand/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu2/cpufreq/ondemand/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu2/cpufreq/ondemand/sampling_rate;
+
+  fi;  
+  if [ -e /sys/devices/system/cpu/cpu3/cpufreq/ondemand/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu3/cpufreq/ondemand/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu3/cpufreq/ondemand/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu3/cpufreq/ondemand/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu3/cpufreq/ondemand/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu3/cpufreq/ondemand/sampling_rate;
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpufreq/ondemand/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpufreq/ondemand/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate;
+  fi;
+
+
+
+# OndemandX
+
+  if [ -e /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/up_threshold ]; then
+    echo "70" > /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu0/cpufreq/ondemandx/sampling_rate;
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu1/cpufreq/ondemandx/sampling_rate;
+
+  fi;
+    if [ -e /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu2/cpufreq/ondemandx/sampling_rate;
+
+  fi;
+    if [ -e /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/io_is_busy;
+    #echo "2" > /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpu3/cpufreq/ondemandx/sampling_rate;
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpufreq/ondemandx/up_threshold ]; then
+
+    echo "70" > /sys/devices/system/cpu/cpufreq/ondemandx/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpufreq/ondemandx/down_differential;
+    #echo "2" > /sys/devices/system/cpu/cpufreq/ondemandx/io_is_busy;
+    #echo "1" > /sys/devices/system/cpu/cpufreq/ondemandx/sampling_down_factor;
+    #echo "30000" > /sys/devices/system/cpu/cpufreq/ondemandx/sampling_rate;
+  fi;
+
+
+
+# Conservative
+
+
+  if [ -e /sys/devices/system/cpu/cpu0/cpufreq/conservative/up_threshold ]; then
+    echo "90" > /sys/devices/system/cpu/cpu0/cpufreq/conservative/up_threshold;
+    echo "50" > /sys/devices/system/cpu/cpu0/cpufreq/conservative/down_threshold; 
+          echo "100" > /sys/devices/system/cpu/cpu0/cpufreq/conservative/freq_step; 
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu1/cpufreq/conservative/up_threshold ]; then
+
+    echo "90" > /sys/devices/system/cpu/cpu1/cpufreq/conservative/up_threshold;
+    echo "50" > /sys/devices/system/cpu/cpu1/cpufreq/conservative/down_threshold; 
+          echo "100" > /sys/devices/system/cpu/cpu1/cpufreq/conservative/freq_step; 
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu2/cpufreq/conservative/up_threshold ]; then
+
+    echo "90" > /sys/devices/system/cpu/cpu2/cpufreq/conservative/up_threshold;
+    echo "50" > /sys/devices/system/cpu/cpu2/cpufreq/conservative/down_threshold; 
+          echo "100" > /sys/devices/system/cpu/cpu2/cpufreq/conservative/freq_step; 
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu3/cpufreq/conservative/up_threshold ]; then
+
+    echo "90" > /sys/devices/system/cpu/cpu3/cpufreq/conservative/up_threshold;
+    echo "50" > /sys/devices/system/cpu/cpu3/cpufreq/conservative/down_threshold; 
+          echo "100" > /sys/devices/system/cpu/cpu3/cpufreq/conservative/freq_step; 
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpufreq/conservative/up_threshold ]; then
+
+    echo "90" > /sys/devices/system/cpu/cpufreq/conservative/up_threshold;
+    echo "50" > /sys/devices/system/cpu/cpufreq/conservative/down_threshold; 
+          echo "100" > /sys/devices/system/cpu/cpufreq/conservative/freq_step; 
+  fi;
+
+
+# lulzactive
+
+  if [ -e /sys/devices/system/cpu/cpufreq/lulzactive/inc_cpu_load ]; then
+
+    echo "85" > /sys/devices/system/cpu/cpufreq/lulzactive/inc_cpu_load;
+#    if [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 200000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1200000 ]; then
+#      echo "4" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 200000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1400000 ]; then
+#      echo "5" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 200000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1600000 ]; then
+#      echo "6" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 100000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1200000 ]; then
+#      echo "5" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 100000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1400000 ]; then
+#      echo "6" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 100000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1600000 ]; then
+#      echo "7" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 100000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 800000 ]; then
+#      echo "3" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 100000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1000000 ]; then
+#      echo "4" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 200000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 800000 ]; then
+#      echo "2" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    elif [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq`" -eq 200000 ] && [ "`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq`" -eq 1000000 ]; then
+#      echo "3" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_up_step;
+#    fi;
+    echo "1" > /sys/devices/system/cpu/cpufreq/lulzactive/pump_down_step;
+#    echo "4" > /sys/devices/system/cpu/cpufreq/lulzactive/screen_off_min_step;
+  fi;
+
+
+
+# Pegasusq
+
+
+  if [ -e /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/up_threshold ]; then
+    echo "85" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/io_is_busy;
+    echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/sampling_down_factor;
+    echo "20000" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/sampling_rate;
+    echo "100" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/freq_step;
+    echo "5" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/cpu_up_rate;
+    echo "20" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/cpu_down_rate;
+    echo "100000" > /sys/devices/system/cpu/cpu0/cpufreq/pegasusq/freq_for_responsiveness;
+
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/up_threshold ]; then
+    echo "85" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/io_is_busy;
+    echo "1" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/sampling_down_factor;
+    echo "20000" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/sampling_rate;
+    echo "100" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/freq_step;
+    echo "5" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/cpu_up_rate;
+    echo "20" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/cpu_down_rate;
+    echo "100000" > /sys/devices/system/cpu/cpu1/cpufreq/pegasusq/freq_for_responsiveness;
+
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpufreq/pegasusq/up_threshold ]; then
+
+    echo "85" > /sys/devices/system/cpu/cpufreq/pegasusq/up_threshold;
+    echo "10" > /sys/devices/system/cpu/cpufreq/pegasusq/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpufreq/pegasusq/io_is_busy;
+    echo "1" > /sys/devices/system/cpu/cpufreq/pegasusq/sampling_down_factor;
+    echo "20000" > /sys/devices/system/cpu/cpufreq/pegasusq/sampling_rate;
+    echo "100" > /sys/devices/system/cpu/cpufreq/pegasusq/freq_step;
+    echo "5" > /sys/devices/system/cpu/cpufreq/pegasusq/cpu_up_rate;
+    echo "20" > /sys/devices/system/cpu/cpufreq/pegasusq/cpu_down_rate;
+    echo "100000" > /sys/devices/system/cpu/cpufreq/pegasusq/freq_for_responsiveness;
+
+
+  fi;
+
+
+# Hotplug
+
+
+  if [ -e /sys/devices/system/cpu/cpu0/cpufreq/hotplug/up_threshold ]; then
+    echo "85" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/up_threshold;
+    echo "40" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/down_threshold;
+    echo "5" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/hotplug_in_sampling_periods;
+    echo "20" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/hotplug_out_sampling_periods;
+    echo "10" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/io_is_busy;
+    echo "20000" > /sys/devices/system/cpu/cpu0/cpufreq/hotplug/sampling_rate;
+  fi;
+  if [ -e /sys/devices/system/cpu/cpu1/cpufreq/hotplug/up_threshold ]; then
+    echo "85" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/up_threshold;
+    echo "40" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/down_threshold;
+    echo "5" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/hotplug_in_sampling_periods;
+    echo "20" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/hotplug_out_sampling_periods;
+    echo "10" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/io_is_busy;
+    echo "20000" > /sys/devices/system/cpu/cpu1/cpufreq/hotplug/sampling_rate;
+
+  fi;
+  if [ -e /sys/devices/system/cpu/cpufreq/hotplug/up_threshold ]; then
+
+    echo "85" > /sys/devices/system/cpu/cpufreq/hotplug/up_threshold;
+    echo "40" > /sys/devices/system/cpu/cpufreq/hotplug/down_threshold;
+    echo "5" > /sys/devices/system/cpu/cpufreq/hotplug/hotplug_in_sampling_periods;
+    echo "20" > /sys/devices/system/cpu/cpufreq/hotplug/hotplug_out_sampling_periods;
+    echo "10" > /sys/devices/system/cpu/cpufreq/hotplug/down_differential;
+    #echo "1" > /sys/devices/system/cpu/cpufreq/hotplug/io_is_busy;
+    echo "20000" > /sys/devices/system/cpu/cpufreq/hotplug/sampling_rate;
+  fi;
+  
+echo "" | tee -a $FLY
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) CPU Governor tweaking done!" | tee -a $FLY;

@@ -1,0 +1,12 @@
+#!/system/bin/sh
+#Clean up one time scripts
+
+mount -o remount,rw /system
+
+sh /system/etc/init.d/74buildproprm;
+
+rm /system/etc/init.d/74buildproprm;
+
+mount -o remount,ro /system
+
+

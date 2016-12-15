@@ -1,0 +1,110 @@
+#!/system/bin/sh
+#ThunderBolt!
+#From Darky's zipalign - Modified to make it actually work.
+# Zipalign Counter Made By ImbaWind @ XDA
+# Adrenaline Engine
+
+
+if [ -e /data/adrenaline/engine/etc/zip_c ]; then
+	echo "Zipalign Counter File Exists"
+	CNT=/data/adrenaline/engine/etc/zip_c
+	ZC=`cat $CNT`
+	if [ $ZC -eq 0 ]; then
+		echo "1" > $CNT
+		echo "First Boot"
+		exit
+	elif [ $ZC -eq 1 ]; then
+		echo "2" > $CNT
+		echo "Second Boot"
+		exit
+	elif [ $ZC -eq 2 ]; then
+		echo "3" > $CNT
+		echo "Third Boot"
+		exit
+	elif [ $ZC -eq 3 ]; then
+		echo "4" > $CNT
+		echo "Forth Boot"
+		exit
+	elif [ $ZC -eq 4 ]; then
+		echo "Fifth Boot"
+		echo "Now Zipaligning"
+		rm -f /data/adrenaline/engine/etc/zip_c
+		touch /data/adrenaline/engine/etc/zip_c
+		echo "0" > /data/adrenaline/engine/etc/zip_c
+		LOG_FILE=/data/zipalign.log;
+		ZIPALIGNDB=/data/zipalign.db;
+
+		if [ -e $LOG_FILE ]; then
+			rm $LOG_FILE;
+		fi;
+
+		if [ ! -f $ZIPALIGNDB ]; then
+			touch $ZIPALIGNDB;
+		fi;
+
+		echo "Starting FV Automatic ZipAlign $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
+
+		for DIR in /system/app /data/app; do
+			cd $DIR;
+			for APK in *.apk; do
+				if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
+					echo "Already checked: $DIR/$APK" | tee -a $LOG_FILE;
+				else
+					ZIPCHECK=`/system/xbin/zipalign -c -v 4 $APK | grep FAILED | wc -l`;
+					if [ $ZIPCHECK == "1" ]; then
+						echo "Now aligning: $DIR/$APK" | tee -a $LOG_FILE;
+						/system/xbin/zipalign -v -f 4 $APK /data/local/$APK;
+						busybox mount -o rw,remount /system;
+						cp -f -p /data/local/$APK $APK;
+						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+					else
+						echo "Already aligned: $DIR/$APK" | tee -a $LOG_FILE;
+						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+					fi;
+				fi;
+			done;
+		done;
+	fi;
+
+		busybox mount -o ro,remount /system;
+		touch $ZIPALIGNDB;
+		echo "Automatic ZipAlign finished at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
+	
+else
+	touch /data/adrenaline/engine/etc/zip_c
+	echo "0" > /data/adrenaline/engine/etc/zip_c
+	echo "First Installation"
+	echo "Now Zipaligning"
+		LOG_FILE=/data/zipalign.log;
+		ZIPALIGNDB=/data/zipalign.db;
+		if [ -e $LOG_FILE ]; then
+			rm $LOG_FILE;
+		fi;
+
+		if [ ! -f $ZIPALIGNDB ]; then
+			touch $ZIPALIGNDB;
+		fi;
+
+		echo "Starting FV Automatic ZipAlign $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
+
+		for DIR in /system/app /data/app; do
+			cd $DIR;
+			for APK in *.apk; do
+				if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
+					echo "Already checked: $DIR/$APK" | tee -a $LOG_FILE;
+				else
+					ZIPCHECK=`/system/xbin/zipalign -c -v 4 $APK | grep FAILED | wc -l`;
+					if [ $ZIPCHECK == "1" ]; then
+						echo "Now aligning: $DIR/$APK" | tee -a $LOG_FILE;
+						/system/xbin/zipalign -v -f 4 $APK /data/local/$APK;
+						busybox mount -o rw,remount /system;
+						cp -f -p /data/local/$APK $APK;
+						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+					else
+						echo "Already aligned: $DIR/$APK" | tee -a $LOG_FILE;
+						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+					fi;
+				fi;
+			done;
+		done;
+fi;
