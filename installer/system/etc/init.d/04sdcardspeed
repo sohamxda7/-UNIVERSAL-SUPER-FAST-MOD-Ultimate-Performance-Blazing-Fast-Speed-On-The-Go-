@@ -1,0 +1,10 @@
+#!/system/bin/sh
+#SD-Card read ahead
+#Team ACID
+
+
+WIN=$(find /sys/devices/virtual/bdi/*/ -name read_ahead_kb)
+
+ echo "4096" | tee $WIN
+
+#Easy enough :)

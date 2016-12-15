@@ -1,0 +1,44 @@
+#!/system/bin/sh
+#Defrags database files
+
+LOG_FILE=/data/S50-vacuum-databases.log
+
+# do nothing if less than 7 days
+find $LOG_FILE -type f -mtime +7 -delete
+
+if ! test -f $LOG_FILE; then
+
+	/bin/mount -o remount,rw /
+
+	if [ -e $LOG_FILE ]; then
+		rm $LOG_FILE;
+	fi;
+    	
+	echo "Starting Sqlite Vacuum $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
+
+	for i in \
+	`find /data -iname "*.db"`
+	do \
+		sqlite3 $i 'VACUUM;'; 
+		echo Vacuum $i  | tee -a $LOG_FILE;
+	done;
+
+	for i in \
+	`find /dbdata -iname "*.db"`
+	do \
+		sqlite3 $i 'VACUUM;'; 
+		echo Vacuum $i  | tee -a $LOG_FILE;
+	done;
+
+	for i in \
+	`find /sdcard -iname "*.db"`
+	do \
+		sqlite3 $i 'VACUUM;'; 
+		echo Vacuum $i  | tee -a $LOG_FILE;
+	done
+
+	echo "Sqlite Vacuum finished at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
+
+	/bin/mount -o remount,ro /
+
+fi

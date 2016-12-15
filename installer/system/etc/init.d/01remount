@@ -1,0 +1,32 @@
+#!/system/bin/sh
+#Adrenaline by Team Acid
+
+sys=$(find /dev/block/platform -name system)
+dat=$(find /dev/block/platform -name data)
+udat=$(find /dev/block/platform -name userdata)
+cac=$(find /dev/block/platform -name cache)
+
+# Remount each file system with noatime and nodiratime flags to save battery and CPU cycles
+
+mount -o remount,noatime,nodelalloc,nodiratime,commit=900,noatime,noauto_da_alloc,barrier=0 $sys
+
+mount -o remount,noatime,nodelalloc,nodiratime,commit=900,noauto_da_alloc,barrier=0 $dat
+
+mount -o remount,noatime,nodelalloc,nodiratime,commit=900,noauto_da_alloc,barrier=0 $udat
+
+mount -o remount,noatime,nodelalloc,nodiratime,commit=900,noauto_da_alloc,barrier=0 $cac
+
+
+# Kernel Tweaks
+#
+sysctl -w kernel.sched_features=15834233;
+sysctl -w kernel.msgmni=2048;
+sysctl -w kernel.msgmax=64000;
+sysctl -w kernel.shmmax=268435500;
+sysctl -w kernel.sem=500,512000,64,2048;
+sysctl -w kernel.hung_task_timeout_secs=0;
+sysctl -w kernel.sched_latency_ns=5000000; 
+sysctl -w kernel.sched_compat_yield=1;
+sysctl -w kernel.sched_shares_ratelimit=256000;
+sysctl -w kernel.sched_child_runs_first=0;
+sysctl -w kernel.threads-max=10000;

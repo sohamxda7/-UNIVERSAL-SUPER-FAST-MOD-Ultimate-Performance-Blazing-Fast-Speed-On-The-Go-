@@ -1,0 +1,4 @@
+#!/system/bin/sh
+#
+
+echo NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features

@@ -1,0 +1,106 @@
+#!/system/bin/sh
+# Optimize SQlite databases of apps
+# Taken from thunderbolt! by pikachu01 @ XDA
+# Smart Optimizing by ImbaWind @ XDA
+# Adrenaline Engine Specified
+
+
+if [ -e /data/adrenaline/engine/etc/sq_c ]; then
+	echo "SQlite Counter File Exists"
+	CNT=/data/adrenaline/engine/etc/sq_c
+	SC=`cat $CNT`
+	if [ $SC -eq 0 ]; then
+		echo "1" > $CNT
+		echo "First Boot"
+		exit
+	elif [ $SC -eq 1 ]; then
+		echo "2" > $CNT
+		echo "Second Boot"
+		exit
+	elif [ $SC -eq 2 ]; then
+		echo "3" > $CNT
+		echo "Third Boot"
+		exit
+	elif [ $SC -eq 3 ]; then
+		echo "4" > $CNT
+		echo "Forth Boot"
+		exit
+	elif [ $SC -eq 4 ]; then
+		echo "Fifth Boot"
+		echo "Now Optimizing"
+		rm -f /data/adrenaline/engine/etc/sq_c
+		touch /data/adrenaline/engine/etc/sq_c
+		echo "0" > /data/adrenaline/engine/etc/sq_c
+		for i in \
+		`busybox find /data -iname "*.db"`; 
+		do \
+			/system/xbin/sqlite3 $i 'VACUUM;'; 
+			/system/xbin/sqlite3 $i 'REINDEX;'; 
+		done;
+
+		if [ -d "/dbdata" ]; then
+			for i in \
+			`busybox find /dbdata -iname "*.db"`; 
+			do \
+				/system/xbin/sqlite3 $i 'VACUUM;'; 
+				/system/xbin/sqlite3 $i 'REINDEX;'; 
+			done;
+		fi;
+
+
+		if [ -d "/datadata" ]; then
+			for i in \
+			`busybox find /datadata -iname "*.db"`; 
+			do \
+				/system/xbin/sqlite3 $i 'VACUUM;'; 
+				/system/xbin/sqlite3 $i 'REINDEX;'; 
+			done;
+		fi;
+
+
+		for i in \
+		`busybox find /sdcard -iname "*.db"`; 
+		do \
+			/system/xbin/sqlite3 $i 'VACUUM;'; 
+			/system/xbin/sqlite3 $i 'REINDEX;'; 
+		done;
+	fi;
+else
+	touch /data/adrenaline/engine/etc/sq_c
+	echo "0" > /data/adrenaline/engine/etc/sq_c
+	echo "First Installation"
+	echo "Now Optimizing"
+		for i in \
+		`busybox find /data -iname "*.db"`; 
+		do \
+			/system/xbin/sqlite3 $i 'VACUUM;'; 
+			/system/xbin/sqlite3 $i 'REINDEX;'; 
+		done;
+
+		if [ -d "/dbdata" ]; then
+			for i in \
+			`busybox find /dbdata -iname "*.db"`; 
+			do \
+				/system/xbin/sqlite3 $i 'VACUUM;'; 
+				/system/xbin/sqlite3 $i 'REINDEX;'; 
+			done;
+		fi;
+
+
+		if [ -d "/datadata" ]; then
+			for i in \
+			`busybox find /datadata -iname "*.db"`; 
+			do \
+				/system/xbin/sqlite3 $i 'VACUUM;'; 
+				/system/xbin/sqlite3 $i 'REINDEX;'; 
+			done;
+		fi;
+
+
+		for i in \
+		`busybox find /sdcard -iname "*.db"`; 
+		do \
+			/system/xbin/sqlite3 $i 'VACUUM;'; 
+			/system/xbin/sqlite3 $i 'REINDEX;'; 
+		done;
+fi;
