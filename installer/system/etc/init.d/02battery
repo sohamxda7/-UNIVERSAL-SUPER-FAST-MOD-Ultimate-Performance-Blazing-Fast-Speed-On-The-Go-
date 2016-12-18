@@ -1,9 +1,0 @@
-#!/system/bin/sh
-#Initiate battery tweaks
-
-
-./system/etc/battery.sh
-
-
-
-
