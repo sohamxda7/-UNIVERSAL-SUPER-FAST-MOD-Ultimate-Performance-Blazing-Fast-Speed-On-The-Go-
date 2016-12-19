@@ -10,16 +10,15 @@
 # collin_ph@xda
 # zeppelinrox @ xda
 # Google.com
-#Optimized for Galaxy Ace 
+#Optimized for Galaxy Ace
 #By ImbaWind @ XDA Developers
 # ===========================================
 # ===========================================
-# #           VERSION      [4 . 5]          #
+# #           VERSION      [4 . 4]          #
 # ===========================================
 # ===========================================
-# THIS IS CYANOGENMOD VERSION OF ADRENALINE ENGINE
 
-ver=4.5
+ver=4.4
 echo "Current Version: [ $ver ]" > /data/adrenaline/engine/version
 
 # ===========================================
@@ -34,7 +33,7 @@ echo "Current Version: [ $ver ]" > /data/adrenaline/engine/version
 if [ -e /data/adrenaline/engine/etc/build.prop ]; then
 	rm /data/adrenaline/engine/etc/build.prop
 	cp /system/build.prop /data/adrenaline/engine/etc/
-else 
+else
 	cp /system/build.prop /data/adrenaline/engine/etc/
 fi;
 
@@ -69,21 +68,20 @@ else
    echo "" >> $AC
 fi;
 
- 
+
 if [ -e /data/adrenaline/engine/etc/AE_DEBUG.log ]; then
      rm /data/adrenaline/engine/etc/AE_DEBUG.log
-	  touch /data/adrenaline/engine/etc/AE_DEBUG.log 
+	  touch /data/adrenaline/engine/etc/AE_DEBUG.log
 else
 	 touch /data/adrenaline/engine/etc/AE_DEBUG.log
 fi;
-     LOG=/data/adrenaline/engine/etc/AE_DEBUG.log 
+     LOG=/data/adrenaline/engine/etc/AE_DEBUG.log
 	 echo "AE Version : $ver" >> $LOG
      echo "Script Starting At `date`" >> $LOG
 	 echo "Android Version: `getprop ro.build.id`" >> $LOG
 	 echo "ROM: `getprop ro.build.display.id`" >> $LOG
      echo "Build: `getprop ro.build.version.release`" >> $LOG
      echo "Kernel: `uname -r`" >> $LOG
-	 echo "CYANOGENMOD" >> $LOG
 	 echo "" >> $LOG
 	 echo "" >> $LOG
 	 echo "" >> $LOG
@@ -117,30 +115,30 @@ if [ grep "sio" /sys/block/mmcblk0/queue/scheduler ]; then
 	echo "Applying SIO as Scheduler..." >> $LOG
 	for i in $STL $BML $MMC;
 	do
-		echo "sio" > $i/queue/scheduler; 
+		echo "sio" > $i/queue/scheduler;
 	done;
 else
 	echo "Applying NOOP as Scheduler..." >> $LOG
 	for i in $STL $BML $MMC;
 	do
-		echo "noop" > $i/queue/scheduler; 
+		echo "noop" > $i/queue/scheduler;
 	done;
 fi
 
 echo "Optimizing Non-Rotating Storage..." >> $LOG
-# Optimize non-rotating storage; 
+# Optimize non-rotating storage;
 for i in $STL $BML $MMC;
 do
 	#IMPORTANT!
-	if [ -e $i/queue/rotational ]; 
+	if [ -e $i/queue/rotational ];
 	then
-		echo 0 > $i/queue/rotational; 
+		echo 0 > $i/queue/rotational;
 	fi;
 	if [ -e $i/queue/nr_requests ];
 	then
 		echo 8192 > $i/queue/nr_requests; # for starters: keep it sane
 	fi;
-	
+
 	# deadline/VR/SIO scheduler specific
 	if [ -e $i/queue/iosched/fifo_batch ];
 	then
@@ -150,7 +148,7 @@ do
 	then
 		echo 1 > $i/queue/iosched/writes_starved;
 	fi;
-	
+
 echo "Disabling I/O Stats To Reduce Overhead..." >> $LOG
 #disable iostats to reduce overhead  # idea by kodos96 - thanks !
 	if [ -e $i/queue/iostats ];
@@ -159,13 +157,13 @@ echo "Disabling I/O Stats To Reduce Overhead..." >> $LOG
 	fi;
 
 echo "Optimizing Read_ahead..." >> $LOG
-# Optimize for read- & write-throughput; 
-# Optimize for readahead; 
+# Optimize for read- & write-throughput;
+# Optimize for readahead;
 	if [ -e $i/queue/read_ahead_kb ];
 	then
 		echo "256" >  $i/queue/read_ahead_kb;
 	fi;
-	
+
 done;
 
 
@@ -180,7 +178,7 @@ if [ -e /sys/devices/virtual/bdi/179:0/read_ahead_kb ];
 then
     echo "2048" > /sys/devices/virtual/bdi/179:0/read_ahead_kb;
 fi;
-	
+
 if [ -e /sys/devices/virtual/bdi/179:8/read_ahead_kb ];
   then
     echo "2048" > /sys/devices/virtual/bdi/179:8/read_ahead_kb;
@@ -240,7 +238,7 @@ echo "4" > /proc/sys/vm/min_free_order_shift;
 echo "0" > /proc/sys/vm/laptop_mode;
 echo "0" > /proc/sys/vm/block_dump;
 echo "1" > /proc/sys/vm/oom_dump_tasks;
-  
+
 
 
 # ===========================================
@@ -320,13 +318,73 @@ echo "65536" > /proc/sys/fs/file-max;
 # #    Prop Tweaks | Adrenaline Engine      #
 # ===========================================
 # ===========================================
+# Thanks to iandol for the limit
+# check idea and being a mentor
 
-# Graphics Enhancement
-setprop debug.performance.tuning 1
-setprop video.accelerate.hw 1
-setprop persist.sys.use_dithering 1
+echo "Applying Prop Tweaks..." >> $LOG
+if [ $(getprop | wc -l) -lt 231 ]; then
+	echo "-Lower Than 231" >> $LOG
+	# Website Bypass | Credit to Varun
+	setprop net.rmnet0.dns1 8.8.8.8
+	setprop net.rmnet0.dns2 8.8.4.4
+	setprop net.dns1 8.8.8.8
+	setprop net.dns2 8.8.4.4
+	# Scrolling Responsiveness
+	setprop windowsmgr.max_events_per_sec 240
+	# Force Launcher into memory
+	setprop ro.HOME_APP_ADJ 1
+	# Graphics Enhancement
+	setprop debug.performance.tuning 1
+	setprop video.accelerate.hw 1
+	setprop ro.media.dec.jpeg.memcap 8000000
+	setprop ro.media.enc.hprof.vid.bps 8000000
+	setprop persist.sys.use_dithering 1
+	# Power Saving Tweaks
+	setprop ro.ril.disable.power.collapse 1
+	setprop pm.sleep_mode 1
+	# Dialing Tweaks
+	setprop ro.telephony.call_ring.delay 0
+	# Overall Performance Tweaks
+	setprop ro.kernel.android.checkjni 0
+	setprop persist.sys.purgeable_assets 1
+elif [ $(getprop | wc -l) -lt 235 ]; then
+	echo "-Lower Than 235" >> $LOG
+	# Scrolling Responsiveness
+	setprop windowsmgr.max_events_per_sec 240
+	# Force Launcher into memory
+	setprop ro.HOME_APP_ADJ 1
+	# Graphics Enhancement
+	setprop debug.performance.tuning 1
+	setprop video.accelerate.hw 1
+	setprop ro.media.dec.jpeg.memcap 8000000
+	setprop ro.media.enc.hprof.vid.bps 8000000
+	setprop persist.sys.use_dithering 1
+	# Power Saving Tweaks
+	setprop ro.ril.disable.power.collapse 1
+	setprop pm.sleep_mode 1
+	# Overall Performance Tweaks
+	setprop ro.kernel.android.checkjni 0
+	setprop persist.sys.purgeable_assets 1
+elif [ $(getprop | wc -l) -lt 241 ]; then
+	echo "-Lower Than 241" >> $LOG
+	# Scrolling Responsiveness
+	setprop windowsmgr.max_events_per_sec 240
+	# Graphics Enhancement
+	setprop debug.performance.tuning 1
+	setprop video.accelerate.hw 1
+	# Overall Performance Tweaks
+	setprop ro.kernel.android.checkjni 0
+	setprop persist.sys.purgeable_assets 1
+elif [ $(getprop | wc -l) -lt 245 ]; then
+	echo "-Lower Than 245" >> $LOG
+	# Graphics Enhancement
+	setprop debug.performance.tuning 1
+	setprop video.accelerate.hw 1
+else
+	echo "Not Enough Prop Slot" >> $LOG
+fi
 
-	
+
 
 
 

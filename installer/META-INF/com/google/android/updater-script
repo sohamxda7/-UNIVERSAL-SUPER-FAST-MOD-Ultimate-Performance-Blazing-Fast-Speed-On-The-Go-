@@ -1,162 +1,139 @@
-ui_print("==================================");
-ui_print(" Ultimate Performance v8 Beta1");
-ui_print("        By SohamSen");
-ui_print("==================================");
-ui_print("==================================");
-ui_print("   Feel The Blazing Fast Speed    ");
-ui_print("==================================");
+# ---
+#
+# WE NEED A zipalign BINARY WICH IS PIE !!!
+#
+# ---
+# PPX already include AE, so no real merge between those two.
+# ---
+# no more CrossBreeder as it mess with wifi tether with android 5+
+# A lot of stuff in PPX use CrossBreeder :(
+# ---
+# REMOVE_TETHER_BOOST no more needed
+# ---
+# A lot of tweak in build.prop, not sure that everything is useful
+# Non-exhaustive list :
+# dnsmasq
+# some stuff in init_entries
+# ---
+# sqlite3 (-static) correctly install in /system/xbin by following ARCH
+# ---
+# init_entries.sh use /data/data/com.android.providers.settings/databases/settings.db
+# but this files is probably outdated ...
 
-# no more using /sbin/busybox, as we put it in setup to /tmp, we will use only this one
-# it seems a lot of files does not exist in installer, so some manipulation seems useless
-# some files comes from others script, I thinks we should merge those script from scratch :
-# we are dealing with update / reinstall / removing / re-update in the same script, that s not good :/
+ui_print("____________________________________");
+ui_print("|                                  |");
+ui_print("| Ultimate Performance v10         |");
+ui_print("|           By SohamSen & Storm1er |");
+ui_print("|__________________________________|");
+ui_print("|                                  |");
+ui_print("| Credits :                        |");
+ui_print("|  - Adrenaline Engine @ XDA       |");
+ui_print("|  - PurePerformance X @ XDA       |");
+ui_print("|  - BroadCom Booster  @ XDA       |");
+ui_print("|__________________________________|");
 
-#This is particular to one phone, I hope people was listening to you when you said "mount before install" ...
-#mount("ext4", "EMMC", "/dev/block/mmcblk0p7", "/system");
-#mount("ext4", "EMMC", "/dev/block/mmcblk0p9", "/data");
 
-ui_print("Extracting files... ");
+ui_print("|                                  |");
+ui_print("| Extracting setup files to /tmp   |");
 	package_extract_dir("setup", "/tmp");
-
-ui_print("Set permitions to /tmp... ");
 	set_perm_recursive(0, 0, 0755, 0755, "/tmp");
-
-ui_print("Set more permitions to /tmp... ");
-	run_program("/tmp/busybox","chmod","-R","0755","/tmp");
-	run_program("/tmp/busybox","chown","-R","0.0","/tmp");
-
-ui_print("Mount & remount /system ... ");
-	run_program("/tmp/busybox","mount","/system");
-	run_program("/tmp/busybox","mount","-o","rw,remount","/system");
-
-ui_print("Mount & remount /data ... ");
-	run_program("/tmp/busybox","mount","/data");
-	run_program("/tmp/busybox","mount","-o","rw,remount","/data");
+ui_print("|                         1/12 Done|");
+ui_print("|__________________________________|");
 
 
-ui_print("Removing old CrossBreeder ... ");
-	#busybox and tune2fs has been moved to installer/system/etc/CrossBreeder so no more useless copy
-	run_program("/tmp/busybox","rm","-fr","/system/etc/CrossBreeder");
 
-#updating after removing old file,
-ui_print("Updating system files");
+ui_print("|                                  |");
+ui_print("| Auto mount data & system         |");
+	run_program("/tmp/busybox", "sh", "/tmp/auto_mount.sh");
+ui_print("|                         2/12 Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Enabling init.d                  |");
+	run_program("/tmp/busybox", "sh", "/tmp/enableinit.sh");
+ui_print("|                         3/12 Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Install sqlite                   |");
+	run_program("/tmp/busybox", "sh", "/tmp/install_sqlite.sh");
+ui_print("|                         4/12 Done|");
+ui_print("|__________________________________|");
+
+ui_print("|                                  |");
+ui_print("| Install little busyboc           |");
+	run_program("/tmp/busybox", "sh", "/tmp/install_busybox.sh");
+ui_print("|                         5/12 Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Installing system files          |");
 	package_extract_dir("system", "/system");
-
-#then execute script optimization
-ui_print("Executing restore_dnsmasq.sh ...");
-	run_program("/tmp/restore_dnsmasq.sh");
-
-#has been commented already. dunno why ...
-#run_program("/tmp/busybox","mv","-f","/system/etc/hosts","/system/etc/hosts.CBBAK");
-
-#dunno why this line has been commented dnsmasq in conflict ?
-#ui_print("Copy CrossBreeder/dnsmasq to /system/bin/dnsmasq.bin");
-	#run_program("/tmp/busybox","cp","-f","/system/etc/CrossBreeder/dnsmasq","/system/bin/dnsmasq.bin");
-
-#why this ? conflicts with restore_dnsmasq ?
-ui_print("Removing /bin/dnsmasq.bin ...");
-	delete("/system/bin/dnsmasq.bin");
-
-#hmm ? why list file ?
-#run_program("/tmp/busybox", "ls", "-l", "/system/bin/dnsmasq");
-
-ui_print("Set more permitions to /CrossBreeder files... ");
-	run_program("/tmp/busybox","chown","-R","0.0","/system/etc/CrossBreeder");
-	run_program("/tmp/busybox","chmod","-R","0755","/system/etc/CrossBreeder");
-
-	#has been commented already, no root file or folder in installer, to delete ?
-	#set_perm_recursive(0, 0, 0711, 0444, "/system/etc/CrossBreeder/root");
-	#run_program("/tmp/busybox","chown","-R","0.0","/system/etc/CrossBreeder/root");
-	#run_program("/tmp/busybox","chmod","-R","0444","/system/etc/CrossBreeder/root");
-	#run_program("/tmp/busybox","chmod","0711","/system/etc/CrossBreeder/root");
-	#run_program("/tmp/busybox","chmod","0711","/system/etc/CrossBreeder/root/errors");
-
-	#should probably be commented as CrossBreeder/dnrd_root does not exist, maybe it is created by scripts ?
-	run_program("/tmp/busybox","chown","-R","0.0","/system/etc/CrossBreeder/dnrd_root");
-	run_program("/tmp/busybox","chmod","-R","0644","/system/etc/CrossBreeder/dnrd_root");
-	run_program("/tmp/busybox","chmod","0755","/system/etc/CrossBreeder/dnrd_root");
+ui_print("|                         6/12 Done|");
+ui_print("|__________________________________|");
 
 
-	#this script does not exist in installer, maybe it is created by scripts ? to delete if not
-	#set_perm(0, 0, 0755, "/system/etc/init.d/zzCrossBreeder_initd");
+ui_print("|                                  |");
+ui_print("| Setting rights to system files   |");
+	set_perm_recursive(0, 2000, 0777, 0777, "/system/etc/init.d");
+	set_perm_recursive(0, 2000, 0777, 0777, "/system/usr/idc");
+	set_perm(0, 0, 0777, "/system/default.prop");
+	set_perm(0, 0, 0777, "/system/xbin/sqlite3");
+	set_perm(0, 0, 0777, "/system/xbin/zipalign");
+	set_perm(0, 0, 0777, "/system/xbin/openvpn");
+	set_perm(0, 0, 0777, "/system/lib/libncurses.so");
+	set_perm(0, 0, 0777, "/system/etc/init.d/S98system_tweak");
+	set_perm(0, 0, 0777, "/system/etc/init.d/S70darky_zipalign");
+	set_perm(0, 0, 0777, "/system/etc/init.d/sqlite_optimize");
+	set_perm(0, 0, 0777, "/system/etc/init.d/ram_optimize");
+	set_perm(0, 0, 0777, "/system/etc/init.d/net_buffer");
+	set_perm(0, 0, 0777, "/data/local.prop");
+	set_perm(0, 0, 0777, "/system/usr/idc/mxt244_ts_input.idc");
+ui_print("|                         7/12 Done|");
+ui_print("|__________________________________|");
 
 
-ui_print("Set more permitions to other system files... ");
-	set_perm(0, 2000, 0755, "/system/xbin/haveged");
-	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/busybox");
-	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/dnrd.10053");
-	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/zzCrossBreeder");
-	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/zzCHECK_NET_DNS");
-	set_perm(0, 0, 0755, "/system/bin/dnsmasq");
-	set_perm(0, 0, 0755, "/system/bin/dnsmasq_dhcp");
-	#set_perm(0, 0, 0644, "/system/etc/CrossBreeder/dnsmasq-host");
-	set_perm(0, 0, 0644, "/system/etc/resolv.conf");
-	set_perm(0, 0, 0644, "/system/etc/hosts");
-	set_perm(0, 0, 0644, "/system/etc/CrossBreeder/hosts");
-
-ui_print("Deleting old files ... ");
-	delete("/system/xbin/CB_FileLock");
-	delete("/system/etc/init.d/00CrossBreeder");
-	delete("/system/etc/init.d/zzCrossBreeder");
-	delete("/system/etc/init.d/zzCrossBreeder_initd");
-	#delete("/system/etc/CrossBreeder/dnsmasq");
-
-ui_print("Executing install-recovery.sh");
-	#was not the good folder name :/
-	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/install-recovery.sh");
-	#you did not start it why ?
-	run_program("/system/etc/CrossBreeder/install-recovery.sh");
-	#this script does not exist in installer, maybe it is created by scripts ? to delete if not
-	run_program("/tmp/busybox","mv","-f","/system/etc/install-recovery.sh.CBBAK","/system/etc/install-recovery.sh");
-
-ui_print("Executing install_init_entries.sh");
-	run_program("/tmp/install_init_entries.sh");
-	#Why not this one ?
-	#run_program("/tmp/install_hw_entries.sh");
-
-	#those scripts does not exist in installer, maybe it is created by scripts ? to delete if not
-	#run_program("/tmp/busybox","mv","-f","/system/etc/hw_config.sh.CBBAK","/system/etc/hw_config.sh");
-	run_program("/tmp/busybox","mv","-f","/system/bin/debuggerd.CBBAK","/system/bin/debuggerd");
-
-ui_print("Executing install_debuggerd.sh");
-	#again, this file does not exist in installer, why ?
-	set_perm(0, 2000, 0755, "/system/bin/debuggerd");
-	run_program("/tmp/install_debuggerd.sh");
+ui_print("|                                  |");
+ui_print("| Install init entries             |");
+	run_program("/tmp/busybox", "sh", "/tmp/install_init_entries.sh");
+ui_print("|                         8/12 Done|");
+ui_print("|__________________________________|");
 
 
-ui_print("Executing install_debuggerd.sh");
-	run_program("/tmp/busybox","mv","/system/xbin/rngd","/system/xbin/rngd.bak");
-	run_program("/tmp/busybox","rm","-fr","/data/rngd.pid");
-	run_program("/tmp/busybox","mkdir","/data/rngd.pid/");
-	run_program("/tmp/busybox","chown","0:0","/data/rngd.pid");
-	run_program("/tmp/busybox","chmod","-R","500","/data/rngd.pid");
-	set_perm_recursive(0, 0, 0500, 0500, " /data/rngd.pid/ ");
-	run_program("/tmp/busybox","mv","/system/xbin/qrngd","/system/xbin/qrngd.bak");
-	run_program("/tmp/busybox","mv","/system/bin/qrngd","/system/bin/qrngd.bak");
+ui_print("|                                  |");
+ui_print("| Edit build.prop file             |");
+	run_program("/tmp/busybox", "sh", "/tmp/edit_buildprop.sh");
+ui_print("|                         9/12 Done|");
+ui_print("|__________________________________|");
 
-ui_print("removing tether issue of old install");
-	run_program("/tmp/REMOVE_TETHER_BOOST");
-	#again, this file does not exist in installer, why ?
-	run_program("/tmp/busybox","mv","-f","/system/etc/dnsmasq.conf.CBBAK","/system/etc/dnsmasq.conf");
 
-ui_print("Executing upd-build-prop.sh");
-	#extract an inexistant file ? ôO
-	package_extract_file("upd-build-prop.sh", "/tmp/upd-build-prop.sh");
-	set_perm(0, 0, 0777, "/tmp/upd-build-prop.sh");
-	run_program("/tmp/busybox", "sh", "/tmp/upd-build-prop.sh");
+ui_print("|                                  |");
+ui_print("| Installing data files            |");
+	package_extract_dir("data", "/data");
+ui_print("|                        10/12 Done|");
+ui_print("|__________________________________|");
 
-ui_print("Save logs");
+
+ui_print("|                                  |");
+ui_print("| Saving logs                      |");
 	run_program("/tmp/busybox","cp","-f","/tmp/recovery.log","/data/recovery_cb.log");
+ui_print("|                        11/12 Done|");
+ui_print("|__________________________________|");
 
-ui_print("Deleting temp files");
-	run_program("/tmp/busybox","rm", "-rf", "/tmp/*");
 
-#sync before unmount
-run_program("/tmp/busybox","sync");
-unmount("/system");
-unmount("/data");
-ui_print("Installation was sucessful");
-ui_print("==================================");
-ui_print("   Give Me A Thanks At    ");
-ui_print(" www.xda-developers.com         ");
-ui_print("==================================");
+ui_print("|                                  |");
+ui_print("| Cleaning installation files      |");
+	run_program("/tmp/busybox","sync");
+	run_program("/tmp/busybox","rm","-fr","/tmp/*");
+ui_print("|                        12/12 Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Please clean cache/dalvik before |");
+ui_print("| reboot ! :)              Enjoy ! |");
+ui_print("|__________________________________|");
+
