@@ -1,0 +1,17 @@
+mount("ext4", "EMMC", "/dev/block/mmcblk0p7", "/system");
+mount("ext4", "EMMC", "/dev/block/mmcblk0p9", "/data");
+delete_recursive("/data/adrenaline");
+delete("/data/local.prop");
+delete("/system/default.prop");
+delete_recursive("/system/etc/init.d");
+delete("/system/lib/libcurses.so");
+delete("/system/usr/idc/mxt224_ts_input");
+delete("/system/xbin/haveged");
+delete("/system/xbin/sqlite3");
+delete("/system/xbin/zipalign");
+unmount("/system");
+unmount("/data");
+ui_print("==================================");
+ui_print("       UNINSTALLED  SUCESSFULLY      ");
+ui_print("THANKS FOR USING ULTIMATE PERFORMANCE MOD");
+ui_print("==================================");
