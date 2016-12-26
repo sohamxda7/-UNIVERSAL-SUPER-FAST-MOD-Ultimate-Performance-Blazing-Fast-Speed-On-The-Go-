@@ -49,4 +49,4 @@ fi;
 
 #cp $SQLITE /system/bin/sqlite3
 cp $SQLITE /system/xbin/sqlite3
-chmod a+x /system/xbin/busybox
+chmod a+x /system/xbin/sqlite3

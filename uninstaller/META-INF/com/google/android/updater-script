@@ -17,14 +17,21 @@ ui_print("|                                  |");
 ui_print("| Extracting setup files to /tmp   |");
 	package_extract_dir("setup", "/tmp");
 	set_perm_recursive(0, 0, 0755, 0755, "/tmp");
-ui_print("|                          1/3 Done|");
+ui_print("|                          1/4 Done|");
 ui_print("|__________________________________|");
 
 
 ui_print("|                                  |");
 ui_print("| Auto mount data & system         |");
 	run_program("/tmp/busybox", "sh", "/tmp/auto_mount.sh");
-ui_print("|                          2/3 Done|");
+ui_print("|                          2/4 Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Restore build.prop file          |");
+	run_program("/tmp/busybox", "sh", "/tmp/restore_build.prop.sh");
+ui_print("|                          3/4 Done|");
 ui_print("|__________________________________|");
 
 
@@ -44,7 +51,10 @@ ui_print("| Deleting files                   |");
 	delete("/system/xbin/haveged");
 	delete("/system/xbin/sqlite3");
 	delete("/system/xbin/zipalign");
-ui_print("|                          3/3 Done|");
+	delete("/tmp/auto_mount.sh");
+	delete("/tmp/restore_build.prop.sh");
+	delete("/tmp/busybox");
+ui_print("|                          4/4 Done|");
 ui_print("|__________________________________|");
 ui_print("|                                  |");
 ui_print("| Uninstalled succesfuly  :/       |");
