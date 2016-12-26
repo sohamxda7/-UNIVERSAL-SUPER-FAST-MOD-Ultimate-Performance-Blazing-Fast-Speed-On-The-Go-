@@ -13,6 +13,8 @@ System's performance, smoothness, reduce GUI lags and of course some useful batt
 
 Huge Thanks to the devs of these mods!
 
+---
+
 What's New?  
 - Optimized init.d scripts
 - Optimized performance engines(Total 5 Performance engines combined)
@@ -23,6 +25,7 @@ What's New?
 - Now stock roms are supported!
 - Now supports from Android 2.0 Eclair to Android 7.1 Nougat
 
+---
 
 Changelog:  
 - v1.initial release(Galalxy Ace GT-S5830I Cooperve release)
@@ -36,17 +39,23 @@ Changelog:
 - v9 optimized every tweaks and scripts,new performance engine added,new build.prop tweaks
 - v10 restart from scratch, most tweaks / feature are missing, be patient ;)
 
+---
+
 Next :  
 - v11 all script, simple conflicts's deletion (no merge, delete all)
 - v12 merging resolved conflict
 
-Key Features:  
-1. Improved Battery --- NOT COMPLETE IN v10
-2. Improved Graphics, Screen, Images --- NOT COMPLETE IN v10
-3. Improved CPU, Governors, I/O Schedulers --- NOT IN v10
-4. Ad Blocker --- NOT IN v10
+---
 
-Features v9:
+Key Features:  
+1. Improved Battery --- NOT COMPLETE IN v10  
+2. Improved Graphics, Screen, Images --- NOT COMPLETE IN v10  
+3. Improved CPU, Governors, I/O Schedulers --- NOT IN v10  
+4. Ad Blocker --- NOT IN v10  
+
+---
+
+Features v9:  
 - Full memory management/Better multitasking.
 - Linux kernel tweaks and improvements for better performance and battery life.
 - Less lags for gamers.
@@ -69,6 +78,8 @@ Features v9:
 - VM Tweaks
 - And Much More!
 
+---
+
 Features v10 (RESTART, Feature from v9 doesn't exist anymore if not listed here):
 COMPLETE :  
 - Linux kernel tweaks and improvements for better performance and battery life.
@@ -81,12 +92,16 @@ COMPLETE :
 - I/O Tweaks
 - VM Tweaks
 
+---
+
 INCOMPLETE :  
 - Full memory management/Better multitasking.
 - Zipalign apps in "/system" and apps in "/data" every 24 hours which result in less RAM usage.
 - Decreased the drainage of battery
 - Enables a non-aggressive dithering to save CPU
 - Lightens the load on the CPU switching the workload to GPU rendering
+
+---
 
 TO BE REDONE :  
 - Entropy generator engine used to reduce lags.
@@ -95,6 +110,8 @@ TO BE REDONE :
 - Zipalign at each Boot for better performance
 - Media Server Killer
 - CPU Boost Scripts
+
+---
 
 KNOWN BUG :  
 v10.0.4 :
