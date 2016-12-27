@@ -1,0 +1,12 @@
+#!/system/bin/sh
+# Wireless Speed Tweaks
+
+setprop net.tcp.buffersize.default 4096,87380,256960,4096,16384,256960
+
+setprop net.tcp.buffersize.wifi 4096,87380,256960,4096,16384,256960
+
+setprop net.tcp.buffersize.umts 4096,87380,256960,4096,16384,256960
+
+setprop net.tcp.buffersize.gprs 4096,87380,256960,4096,16384,256960
+
+setprop net.tcp.buffersize.edge 4096,87380,256960,4096,16384,256960

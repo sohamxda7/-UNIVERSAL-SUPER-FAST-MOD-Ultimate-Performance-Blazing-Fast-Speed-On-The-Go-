@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/tmp/busybox sh
 
 export PATH=/tmp:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
 
@@ -47,6 +47,7 @@ fi;
 # /tmp/sqlite3/[PUT YOUR ARCH HERE]/sqlite3-static /data/data/com.android.providers.telephony/databases/telephony.db "SELECT TYPE FROM carriers WHERE CURRENT = 1;"
 # You chould see ,dun on each line
 
-#cp $SQLITE /system/bin/sqlite3
-cp $SQLITE /system/xbin/sqlite3
-chmod a+x /system/xbin/sqlite3
+rm -f /system/bin/sqlite3;
+cp -f $SQLITE /system/bin/sqlite3;
+chmod 755 /system/bin/sqlite3;
+exit 0;
