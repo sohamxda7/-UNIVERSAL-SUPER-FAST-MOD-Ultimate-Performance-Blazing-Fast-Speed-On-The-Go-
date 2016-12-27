@@ -63,7 +63,7 @@ ui_print("|                         4/12 Done|");
 ui_print("|__________________________________|");
 
 ui_print("|                                  |");
-ui_print("| Install little busyboc           |");
+ui_print("| Install little busybox           |");
 	run_program("/tmp/busybox", "sh", "/tmp/install_busybox.sh");
 ui_print("|                         5/12 Done|");
 ui_print("|__________________________________|");
