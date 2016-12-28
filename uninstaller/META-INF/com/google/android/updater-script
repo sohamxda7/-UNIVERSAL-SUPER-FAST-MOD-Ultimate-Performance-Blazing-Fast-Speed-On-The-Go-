@@ -38,7 +38,6 @@ ui_print("|  - CrossBreeder ...              |");
 ui_print("|  - PPX system files      |");
 	delete("/system/xbin/haveged");
 	delete("/system/xbin/CB_FileLock");
-	delete("/system/bin/dnsmasq");
 	delete("/system/bin/dnsmasq_dhcp");
 	delete("/system/etc/init.d/00CrossBreeder");
 	delete("/system/etc/init.d/zzCrossBreeder");
@@ -76,9 +75,6 @@ ui_print("|  - Cleaning AE system files      |");
 	delete("/data/local.prop");
 	delete("/system/xbin/zipalign");
 	delete("/system/xbin/openvpn");
-	delete("/system/lib/libncurses.so");
-	delete("/system/lib/libsqlite.so");
-	delete("/system/lib/libsqlite_jni.so");
 	delete("/system/etc/init.d/S98system_tweak");
 	delete("/system/etc/init.d/S70darky_zipalign");
 	delete("/system/etc/init.d/sqlite_optimize");
@@ -104,6 +100,6 @@ ui_print("|__________________________________|");
 
 ui_print("|                                  |");
 ui_print("| Please clean cache/dalvik before |");
-ui_print("| reboot ! :)              Enjoy ! |");
+ui_print("| reboot !   End of uninstall   :( |");
 ui_print("|__________________________________|");
 
