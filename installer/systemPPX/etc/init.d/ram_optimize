@@ -1,0 +1,17 @@
+#!/system/bin/sh
+# Thunderbolt by Pikachu
+# V6 SuperCharger, OOM Grouping & Priority Fixes created by zeppelinrox.
+# Galaxy Ace Optimized by ImbaWind
+# Adrenaline Engine
+
+# Enable Linux Swap
+swapon /dev/block/platform/msm_sdcc.1/mmcblk0p3
+
+# Set Swappiness
+echo "40" > /proc/sys/vm/swappiness
+
+# ADJ Values
+echo "0,1,3,5,7,15" > /sys/module/lowmemorykiller/parameters/adj;
+
+# Minfree Values (80mb)
+echo "1280,2560,5120,7680,12800,20480" > /sys/module/lowmemorykiller/parameters/minfree;

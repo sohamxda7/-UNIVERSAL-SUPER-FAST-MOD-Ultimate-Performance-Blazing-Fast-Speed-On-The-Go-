@@ -1,15 +1,14 @@
+#PPX Golden Stock
+
 ui_print("____________________________________");
 ui_print("|                                  |");
 ui_print("| Ultimate Performance v10         |");
 ui_print("|           By SohamSen & Storm1er |");
 ui_print("|__________________________________|");
 ui_print("|                                  |");
-ui_print("| Uninstall :(                     |");
-ui_print("|                                  |");
 ui_print("| Credits :                        |");
 ui_print("|  - Adrenaline Engine @ XDA       |");
 ui_print("|  - PurePerformance X @ XDA       |");
-ui_print("|  - BroadCom Booster  @ XDA       |");
 ui_print("|__________________________________|");
 
 
@@ -17,48 +16,90 @@ ui_print("|                                  |");
 ui_print("| Extracting setup files to /tmp   |");
 	package_extract_dir("setup", "/tmp");
 	set_perm_recursive(0, 0, 0755, 0755, "/tmp");
-ui_print("|                          1/4 Done|");
+ui_print("|                         1/4  Done|");
 ui_print("|__________________________________|");
 
 
 ui_print("|                                  |");
 ui_print("| Auto mount data & system         |");
 	run_program("/tmp/busybox", "sh", "/tmp/auto_mount.sh");
-ui_print("|                          2/4 Done|");
+ui_print("|                         2/4  Done|");
 ui_print("|__________________________________|");
 
-
 ui_print("|                                  |");
-ui_print("| Restore build.prop file          |");
-	run_program("/tmp/busybox", "sh", "/tmp/restore_build.prop.sh");
-ui_print("|                          3/4 Done|");
-ui_print("|__________________________________|");
+ui_print("| Remove PPX Golden Edition        |");
+ui_print("|  - CrossBreeder ...              |");
+	run_program("/tmp/busybox", "rm", "-fr", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "cp", "-f", "/system/bin/dnsmasq.CBBAK", "/system/bin/dnsmasq");
+	run_program("/tmp/busybox", "cp", "-f", "/system/etc/resolv.conf.CBBAK", "/system/etc/resolv.conf");
+	run_program("/tmp/busybox", "cp", "-f", "/system/etc/hosts.CBBAK", "/system/etc/hosts");
+	delete("/data/dnsmasq-local.conf");
 
+ui_print("|  - PPX system files      |");
+	delete("/system/xbin/haveged");
+	delete("/system/xbin/CB_FileLock");
+	delete("/system/bin/dnsmasq_dhcp");
+	delete("/system/etc/init.d/00CrossBreeder");
+	delete("/system/etc/init.d/zzCrossBreeder");
+	delete("/system/etc/init.d/zzCrossBreeder_initd");
+	delete("/system/etc/init.d/remount_fullext4");
 
-ui_print("|                                  |");
-ui_print("| Deleting files                   |");
+ui_print("|  - Install init entries          |");
+	run_program("/tmp/busybox", "cp", "-f", "/system/build.prop.CBBAK", "/system/build.prop");
+	run_program("/tmp/busybox", "cp", "-f", "/data/data/com.android.providers.settings/databases/settings.db.CBBAK", "/data/data/com.android.providers.settings/databases/settings.db");
+
+ui_print("|  - Remove debuggerd              |");
+	run_program("/tmp/busybox", "rm", "-f", "/system/bin/debuggerd", "/system/xbin/debuggerd", "/system/sbin/debuggerd");
+
+ui_print("|  - Restore rngd                  |");
+	run_program("/tmp/busybox", "cp", "-f", "/system/xbin/rngd.bak", "/system/xbin/rngd");
+	run_program("/tmp/busybox", "mkdir", "/data/rngd.pid/");
+	run_program("/tmp/busybox", "chown", "0:0", "/data/rngd.pid");
+	run_program("/tmp/busybox", "chmod", "-R", "500", "/data/rngd.pid");
+	set_perm_recursive(0, 0, 0500, 0500, " /data/rngd.pid/ ");
+
+ui_print("|  - Restore qrngd                 |");
+	run_program("/tmp/busybox", "cp", "-f", "/system/xbin/qrngd.bak", "/system/xbin/qrngd");
+	run_program("/tmp/busybox", "cp", "-f", "/system/bin/qrngd.bak", "/system/bin/qrngd");
+
+ui_print("|  - Cleaning AE system files      |");
+	delete("/system/etc/init.d/S70darky_zipalign");
+	delete("/system/etc/init.d/ram_optimize");
+	delete("/system/etc/init.d/net_buffer");
+	delete("/system/etc/init.d/S98system_tweak");
+	delete("/system/etc/init.d/sqlite_optimize");
+	delete("/system/etc/init.d/ext4_lagfix");
+	delete("/system/etc/resolv.conf");
+	delete("/system/default.prop");
 	delete_recursive("/data/adrenaline");
 	delete("/data/local.prop");
-	delete("/system/default.prop");
-	delete("/system/etc/init.d/net_buffer");
-	delete("/system/etc/init.d/ram_optimize");
-	delete("/system/etc/init.d/S70darky_zipalign");
-	delete("/system/etc/init.d/S98system_tweak");
-	delete("/system/etc/init.d/S99remount");
-	delete("/system/etc/init.d/sqlite_optimize");
-	delete("/system/lib/libcurses.so");
-	delete("/system/usr/idc/mxt224_ts_input");
-	delete("/system/xbin/haveged");
-	delete("/system/xbin/sqlite3");
 	delete("/system/xbin/zipalign");
-	delete("/tmp/auto_mount.sh");
-	delete("/tmp/restore_build.prop.sh");
-	delete("/tmp/busybox");
-ui_print("|                          4/4 Done|");
+	delete("/system/xbin/openvpn");
+	delete("/system/etc/init.d/S98system_tweak");
+	delete("/system/etc/init.d/S70darky_zipalign");
+	delete("/system/etc/init.d/sqlite_optimize");
+	delete("/system/etc/init.d/ram_optimize");
+	delete("/system/etc/init.d/ext4_lagfix");
+	delete("/system/etc/init.d/net_buffer");
+	delete("/data/local.prop");
+	delete("/system/usr/idc/mxt244_ts_input.idc");
+ui_print("|                         3/4  Done|");
 ui_print("|__________________________________|");
+
+
 ui_print("|                                  |");
-ui_print("| Uninstalled succesfuly  :/       |");
-ui_print("| Please clean cache & dalvik      |");
-ui_print("| then reboot system               |");
+ui_print("| Final step                       |");
+ui_print("|  - Saving logs                   |");
+	run_program("/tmp/busybox","cp","-f","/tmp/recovery.log","/data/recovery_cb.log");
+ui_print("|  - Cleaning installation files   |");
+	run_program("/tmp/busybox","sync");
+	run_program("/tmp/busybox","rm","-fr","/tmp/*");
+ui_print("|                         4/4  Done|");
+ui_print("|__________________________________|");
+
+
+ui_print("|                                  |");
+ui_print("| Please clean cache/dalvik before |");
+ui_print("| reboot !   End of uninstall   :( |");
 ui_print("|__________________________________|");
 

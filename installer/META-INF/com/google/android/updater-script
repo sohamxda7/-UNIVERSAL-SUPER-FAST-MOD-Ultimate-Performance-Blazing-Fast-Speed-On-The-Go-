@@ -1,24 +1,4 @@
-# ---
-#
-# WE NEED A zipalign BINARY WICH IS PIE !!!
-#
-# ---
-# PPX already include AE, so no real merge between those two.
-# ---
-# no more CrossBreeder as it mess with wifi tether with android 5+
-# A lot of stuff in PPX use CrossBreeder :(
-# ---
-# REMOVE_TETHER_BOOST no more needed
-# ---
-# A lot of tweak in build.prop, not sure that everything is useful
-# Non-exhaustive list :
-# dnsmasq
-# some stuff in init_entries
-# ---
-# sqlite3 (-static) correctly install in /system/xbin by following ARCH
-# ---
-# init_entries.sh use /data/data/com.android.providers.settings/databases/settings.db
-# but this files is probably outdated ...
+#PPX Golden Stock
 
 ui_print("____________________________________");
 ui_print("|                                  |");
@@ -29,7 +9,6 @@ ui_print("|                                  |");
 ui_print("| Credits :                        |");
 ui_print("|  - Adrenaline Engine @ XDA       |");
 ui_print("|  - PurePerformance X @ XDA       |");
-ui_print("|  - BroadCom Booster  @ XDA       |");
 ui_print("|__________________________________|");
 
 
@@ -37,98 +16,138 @@ ui_print("|                                  |");
 ui_print("| Extracting setup files to /tmp   |");
 	package_extract_dir("setup", "/tmp");
 	set_perm_recursive(0, 0, 0755, 0755, "/tmp");
-ui_print("|                         1/12 Done|");
+ui_print("|                         1/5  Done|");
 ui_print("|__________________________________|");
-
 
 
 ui_print("|                                  |");
 ui_print("| Auto mount data & system         |");
 	run_program("/tmp/busybox", "sh", "/tmp/auto_mount.sh");
-ui_print("|                         2/12 Done|");
+ui_print("|                         2/5  Done|");
 ui_print("|__________________________________|");
 
 
 ui_print("|                                  |");
-ui_print("| Enabling init.d                  |");
-	run_program("/tmp/busybox", "sh", "/tmp/enableinit.sh");
-ui_print("|                         3/12 Done|");
-ui_print("|__________________________________|");
-
-
-ui_print("|                                  |");
-ui_print("| Install sqlite                   |");
+ui_print("| Install sqlite3                  |");
 	run_program("/tmp/busybox", "sh", "/tmp/install_sqlite.sh");
-ui_print("|                         4/12 Done|");
-ui_print("|__________________________________|");
-
-ui_print("|                                  |");
-ui_print("| Install little busyboc           |");
-	run_program("/tmp/busybox", "sh", "/tmp/install_busybox.sh");
-ui_print("|                         5/12 Done|");
+ui_print("|                         3/5  Done|");
 ui_print("|__________________________________|");
 
 
 ui_print("|                                  |");
-ui_print("| Installing system files          |");
-	package_extract_dir("system", "/system");
-ui_print("|                         6/12 Done|");
-ui_print("|__________________________________|");
+ui_print("| Install PPX Golden Edition       |");
+ui_print("|  - CrossBreeder ...              |");
+	run_program("/tmp/busybox", "rm", "-fr", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "mkdir", "-p", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "cp", "-f", "/tmp/tune2fs", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "cp", "-f", "/tmp/busybox", "/system/etc/CrossBreeder");
+	set_perm_recursive(0, 0, 0755, 0755, "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "chown", "-R", "0.0", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "chmod", "-R", "0755", "/system/etc/CrossBreeder");
 
+ui_print("|  - CrossBreeder : restore dnsmasq|");
+	run_program("/tmp/busybox", "sh", "/tmp/restore_dnsmasq.sh");
 
-ui_print("|                                  |");
-ui_print("| Setting rights to system files   |");
+ui_print("|  - Extract PPX system files      |");
+	package_extract_dir("systemPPX", "/system");
+
+ui_print("|  - Settings permissions          |");
+	run_program("/tmp/busybox", "chown", "-R", "0.0", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "chmod", "-R", "0755", "/system/etc/CrossBreeder");
+	run_program("/tmp/busybox", "chown", "-R", "0.0", "/system/etc/CrossBreeder/dnrd_root");
+	run_program("/tmp/busybox", "chmod", "-R", "0644", "/system/etc/CrossBreeder/dnrd_root");
+	run_program("/tmp/busybox", "chmod", "0755", "/system/etc/CrossBreeder/dnrd_root");
+
+	set_perm(0, 2000, 0755, "/system/xbin/haveged");
+	delete("/system/xbin/CB_FileLock");
+	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/busybox");
+	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/dnrd.10053");
+	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/zzCrossBreeder");
+	set_perm(0, 0, 0755, "/system/etc/CrossBreeder/zzCHECK_NET_DNS");
+	set_perm(0, 0, 0755, "/system/bin/dnsmasq");
+	set_perm(0, 0, 0755, "/system/bin/dnsmasq_dhcp");
+	set_perm(0, 0, 0644, "/system/etc/resolv.conf");
+	set_perm(0, 0, 0644, "/system/etc/hosts");
+	set_perm(0, 0, 0644, "/system/etc/CrossBreeder/hosts");
+	delete("/system/etc/init.d/00CrossBreeder");
+	delete("/system/etc/init.d/zzCrossBreeder");
+	delete("/system/etc/init.d/zzCrossBreeder_initd");
+
+ui_print("|  - Install init entries          |");
+	run_program("/tmp/busybox", "sh", "/tmp/install_init_entries.sh");
+
+ui_print("|  - Install debuggerd             |");
+	run_program("/tmp/busybox", "mv", "-f", "/system/bin/debuggerd.CBBAK", "/system/bin/debuggerd");
+	set_perm(0, 2000, 0755, "/system/bin/debuggerd");
+	run_program("/tmp/busybox", "sh", "/tmp/install_debuggerd.sh");
+
+ui_print("|  - Removing rngd                 |");
+	run_program("/tmp/busybox", "mv", "/system/xbin/rngd", "/system/xbin/rngd.bak");
+	run_program("/tmp/busybox", "rm", "-fr", "/data/rngd.pid");
+	run_program("/tmp/busybox", "mkdir", "/data/rngd.pid/");
+	run_program("/tmp/busybox", "chown", "0:0", "/data/rngd.pid");
+	run_program("/tmp/busybox", "chmod", "-R", "500", "/data/rngd.pid");
+	set_perm_recursive(0, 0, 0500, 0500, " /data/rngd.pid/ ");
+ui_print("|  - Removing qrngd                |");
+	run_program("/tmp/busybox", "mv", "/system/xbin/qrngd", "/system/xbin/qrngd.bak");
+	run_program("/tmp/busybox", "mv", "/system/bin/qrngd", "/system/bin/qrngd.bak");
+
+ui_print("|  - Removing tether boost by CB   |");
+	run_program("/tmp/REMOVE_TETHER_BOOST");
+	run_program("/tmp/busybox", "mv", "-f", "/system/etc/dnsmasq.conf.CBBAK", "/system/etc/dnsmasq.conf");
+
+	#Skipping to AEngine
+
+ui_print("|  - Cleaning PPX install files    |");
+	delete("/system/etc/init.d/S70darky_zipalign");
+	delete("/system/etc/init.d/ram_optimize");
+	delete("/system/etc/init.d/net_buffer");
+	delete("/system/etc/init.d/S98system_tweak");
+	delete("/system/etc/init.d/sqlite_optimize");
+	delete("/system/etc/init.d/ext4_lagfix");
+	delete("/system/etc/resolv.conf");
+	delete("/system/default.prop");
+	delete_recursive("/data/adrenaline");
+	delete("/data/local.prop");
+
+ui_print("|  - Extract AE <=> PPX files      |");
+	package_extract_dir("dataAE", "/data");
 	set_perm_recursive(0, 2000, 0777, 0777, "/system/etc/init.d");
 	set_perm_recursive(0, 2000, 0777, 0777, "/system/usr/idc");
 	set_perm(0, 0, 0777, "/system/default.prop");
-	set_perm(0, 0, 0777, "/system/xbin/sqlite3");
+	# WE NEED PIE BINARIES !!!
 	set_perm(0, 0, 0777, "/system/xbin/zipalign");
 	set_perm(0, 0, 0777, "/system/xbin/openvpn");
 	set_perm(0, 0, 0777, "/system/lib/libncurses.so");
+	set_perm(0, 0, 0777, "/system/lib/libsqlite.so");
+	set_perm(0, 0, 0777, "/system/lib/libsqlite_jni.so");
 	set_perm(0, 0, 0777, "/system/etc/init.d/S98system_tweak");
 	set_perm(0, 0, 0777, "/system/etc/init.d/S70darky_zipalign");
 	set_perm(0, 0, 0777, "/system/etc/init.d/sqlite_optimize");
 	set_perm(0, 0, 0777, "/system/etc/init.d/ram_optimize");
+	set_perm(0, 0, 0777, "/system/etc/init.d/ext4_lagfix");
 	set_perm(0, 0, 0777, "/system/etc/init.d/net_buffer");
 	set_perm(0, 0, 0777, "/data/local.prop");
 	set_perm(0, 0, 0777, "/system/usr/idc/mxt244_ts_input.idc");
-ui_print("|                         7/12 Done|");
+
+	#Skipping to PurePerformances
+
+ui_print("|  - Build prop tweaks             |");
+	set_perm(0, 0, 0777, "/tmp/add_to_buildprop.sh");
+	run_program("/tmp/busybox", "sh", "/tmp/add_to_buildprop.sh");
+
+ui_print("|                         4/5  Done|");
 ui_print("|__________________________________|");
 
 
 ui_print("|                                  |");
-ui_print("| Install init entries             |");
-	run_program("/tmp/busybox", "sh", "/tmp/install_init_entries.sh");
-ui_print("|                         8/12 Done|");
-ui_print("|__________________________________|");
-
-
-ui_print("|                                  |");
-ui_print("| Edit build.prop file             |");
-	run_program("/tmp/busybox", "sh", "/tmp/edit_buildprop.sh");
-ui_print("|                         9/12 Done|");
-ui_print("|__________________________________|");
-
-
-ui_print("|                                  |");
-ui_print("| Installing data files            |");
-	package_extract_dir("data", "/data");
-ui_print("|                        10/12 Done|");
-ui_print("|__________________________________|");
-
-
-ui_print("|                                  |");
-ui_print("| Saving logs                      |");
+ui_print("| Final step                       |");
+ui_print("|  - Saving logs                   |");
 	run_program("/tmp/busybox","cp","-f","/tmp/recovery.log","/data/recovery_cb.log");
-ui_print("|                        11/12 Done|");
-ui_print("|__________________________________|");
-
-
-ui_print("|                                  |");
-ui_print("| Cleaning installation files      |");
+ui_print("|  - Cleaning installation files   |");
 	run_program("/tmp/busybox","sync");
 	run_program("/tmp/busybox","rm","-fr","/tmp/*");
-ui_print("|                        12/12 Done|");
+ui_print("|                         5/5  Done|");
 ui_print("|__________________________________|");
 
 
